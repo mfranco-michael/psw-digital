@@ -15,21 +15,18 @@ sql_query = """
 CREATE OR REPLACE TABLE `pswdigital.gold.breweries_summary`
 CLUSTER BY nm_state, nm_city, nm_country, tp_brewery
 AS
-SELECT 
-    nm_country, -- País da cervejaria
-    nm_state,   -- Estado da cervejaria
-    nm_city,    -- Cidade da cervejaria
-    tp_brewery, -- Tipo de cervejaria
-    
-    COUNT(*) OVER (PARTITION BY nm_city, nm_state, nm_country, tp_brewery) total_city_and_type, -- Total por cidade e tipo de cervejaria
-    COUNT(*) OVER (PARTITION BY nm_state, nm_country, tp_brewery) total_state_and_type, -- Total por estado e tipo de cervejaria
-    COUNT(*) OVER (PARTITION BY nm_country, tp_brewery) total_country_and_type, -- Total por país e tipo de cervejaria
-    COUNT(*) OVER (PARTITION BY nm_city, nm_state, nm_country) total_city, -- Total por cidade
-    COUNT(*) OVER (PARTITION BY nm_state, nm_country) total_state, -- Total por estado
-    COUNT(*) OVER (PARTITION BY nm_country) total_country, -- Total por país
-    COUNT(*) OVER (PARTITION BY tp_brewery) total_type -- Total por tipo de cervejaria
-FROM `pswdigital.silver.breweries`
-;
+SELECT nm_country, -- País da cervejaria
+       nm_state,   -- Estado da cervejaria
+       nm_city,    -- Cidade da cervejaria
+       tp_brewery, -- Tipo de cervejaria
+       COUNT(*) OVER (PARTITION BY nm_city, nm_state, nm_country, tp_brewery) qt_total_city_and_type,    -- Total por cidade e tipo de cervejaria
+       COUNT(*) OVER (PARTITION BY nm_state, nm_country, tp_brewery)          qt_total_state_and_type,   -- Total por estado e tipo de cervejaria
+       COUNT(*) OVER (PARTITION BY nm_country, tp_brewery)                    qt_total_country_and_type, -- Total por país e tipo de cervejaria
+       COUNT(*) OVER (PARTITION BY nm_city, nm_state, nm_country)             qt_total_city,             -- Total por cidade
+       COUNT(*) OVER (PARTITION BY nm_state, nm_country)                      qt_total_state,            -- Total por estado
+       COUNT(*) OVER (PARTITION BY nm_country)                                qt_total_country,          -- Total por país
+       COUNT(*) OVER (PARTITION BY tp_brewery)                                qt_total_type              -- Total por tipo de cervejaria
+FROM `pswdigital.silver.breweries`;
 """
 
 # 🔹 Executar a consulta no BigQuery
