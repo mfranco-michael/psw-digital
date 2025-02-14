@@ -54,7 +54,7 @@ O pipeline de dados é dividido nas seguintes etapas:
 
 ```sql
 CREATE OR REPLACE TABLE `pswdigital.gold.breweries_summary`
-PARTITION BY DATE(_PARTITIONTIME)
+
 CLUSTER BY nm_state
 AS
 SELECT nm_country, -- País da cervejaria
