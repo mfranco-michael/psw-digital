@@ -1,0 +1,9 @@
+table_name: "breweries"
+layer: "bronze"
+bucket: "datalake_psw"
+api_url: "https://api.openbrewerydb.org/breweries"
+partition_by: "dt_extract"
+format_type: "json"
+credentials_path: "/opt/spark/scripts/bronze/pswdigital-b6c97c6db155.json"
+
+
